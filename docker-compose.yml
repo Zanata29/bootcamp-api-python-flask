@@ -1,0 +1,9 @@
+version: "2.31.0"
+
+services:
+  bootcamp-api:
+    build: .
+    ports:
+      - "8080:5000"
+    volumes:
+      - ./db:/app/db

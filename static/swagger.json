@@ -1,0 +1,102 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Bootcamp API",
+    "description": "API Python Flask para o Bootcamp",
+    "version": "1.0"
+  },
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Página inicial",
+        "description": "Retorna uma mensagem de boas-vindas",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Mensagem de boas-vindas"
+          }
+        }
+      }
+    },
+    "/ping": {
+      "get": {
+        "summary": "Verificação de conexão",
+        "description": "Retorna 'pong' para confirmar que a API está funcionando",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Resposta pong"
+          }
+        }
+      }
+    },
+    "/alunos": {
+      "get": {
+        "summary": "Lista todos os alunos",
+        "description": "Retorna uma lista de todos os alunos cadastrados",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Lista de alunos",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Aluno"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cursos": {
+      "get": {
+        "summary": "Lista todos os cursos",
+        "description": "Retorna uma lista de todos os cursos cadastrados",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Lista de cursos",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Curso"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Aluno": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "ID único do aluno"
+        },
+        "nome": {
+          "type": "string",
+          "description": "Nome do aluno"
+        }
+      }
+    },
+    "Curso": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "ID único do curso"
+        },
+        "nome": {
+          "type": "string",
+          "description": "Nome do curso"
+        }
+      }
+    }
+  }
+}

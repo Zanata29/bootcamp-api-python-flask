@@ -2,5 +2,6 @@
 .idea
 .vscode
 venv
+.venv
 _pycache_
 *.pyc
