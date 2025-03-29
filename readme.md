@@ -1,6 +1,7 @@
 # Bootcamp API - Usando Python com Flask
 
 Projeto desenvolvido para disciplina de `Bootcamp Desenvolvimento e Projetos de Sistema` pelo `Grupo 1`
+- [Diagramas UML e MER](/img) 
 
 ## Pré Requisitos
 - [Git](https://git-scm.com/downloads) - Para baixar o projeto e fazer o versionamento do código
