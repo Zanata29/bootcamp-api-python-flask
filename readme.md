@@ -1,6 +1,11 @@
 # Bootcamp API - Usando Python com Flask
 
 Projeto desenvolvido para disciplina de `Bootcamp Desenvolvimento e Projetos de Sistema` pelo `Grupo 1`
+- [Diagramas UML e MER](/img) 
+- [Documentação](/pdf)
+
+## Objetivo
+- Criar uma API que disponibiliza a consulta, criação, edição e exclusão de alunos e cursos.
 
 ## Pré Requisitos
 - [Git](https://git-scm.com/downloads) - Para baixar o projeto e fazer o versionamento do código
@@ -95,3 +100,4 @@ Para contribuir com o projeto:
 3. Faça commit das suas alterações (`git commit -m 'Adiciona nova funcionalidade'`)
 4. Faça push para a branch (`git push origin feat/nova-funcionalidade`)
 5. Abra um Pull Request
+
