@@ -18,3 +18,7 @@ def get_alunos():
 @app.route("/cursos", methods=["GET"])
 def get_cursos(): 
     return DATABASE.get_all("Curso")
+
+@app.route("/alunos/<int:id>", methods=["GET"])
+def get_alunos_by_id(id):
+    return DATABASE.get_by_id("Aluno", str(id), "cpf") 
