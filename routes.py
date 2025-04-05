@@ -21,4 +21,8 @@ def get_cursos():
 
 @app.route("/alunos/<int:id>", methods=["GET"])
 def get_alunos_by_id(id):
-    return DATABASE.get_by_id("Aluno", str(id), "cpf") 
+    return DATABASE.get_by_id("Aluno", str(id), "cpf")
+
+@app.route("/cursos/<int:id>", methods=["GET"])
+def get_cursos_by_id(id):
+    return DATABASE.get_by_id("Curso", str(id))
