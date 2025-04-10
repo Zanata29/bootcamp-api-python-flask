@@ -1,6 +1,5 @@
 from flask import jsonify
 from main import app
-from types import NoneType
 
 import sqlite3
 
@@ -43,6 +42,20 @@ class DBManager:
             return jsonify({'error': str(error)}), 500
         finally:
             db.close()
+
+    def raw_sql(self, sql: str):
+        try:
+           db = self.get_connection()
+           cursor = db.cursor()
+           cursor.execute(sql) 
+           response = cursor.fetchall()
+           return jsonify([dict(row) for row in response])
+        except sqlite3.Error as error:
+            return jsonify({'error': str(error)}), 500
+        finally:
+            db.close()
+    
+
         
 
 
