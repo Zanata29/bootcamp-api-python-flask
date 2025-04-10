@@ -1,5 +1,6 @@
 from main import app
 from dbmanager import DBManager
+from flask import request, jsonify
 
 DATABASE = DBManager("db/BD_Bootcamp.db")
 
@@ -40,7 +41,7 @@ def get_alunos_by_curso(curso_id):
 
 @app.route("/cursos/aluno/<int:aluno_cpf>", methods=["GET"])
 def get_cursos_by_aluno(aluno_cpf):
-        return DATABASE.raw_sql(
+    return DATABASE.raw_sql(
     """
     SELECT c.* FROM Curso AS c
 	JOIN AlunoCurso AS ac ON c.id = ac.curso_id
@@ -48,3 +49,15 @@ def get_cursos_by_aluno(aluno_cpf):
 	ORDER BY c.nome
     """.format(id=aluno_cpf)
     )
+
+@app.route("/cursos/adicionar", methods=["POST"])
+def insert_curso():
+    id,nome,turno,carga_horaria = request.get_json().values()
+    if id < 0 or id > 99999:
+        return jsonify({'error': 'ID do curso é inválido.'})
+    if turno not in ['matutino','vespertino','noturno']:
+        return jsonify({'error': 'Turno do curso é inválido.'})
+    if carga_horaria < 0 or carga_horaria > 1000:
+        return jsonify({'error': 'Carga-horária do curso é inválida.'})
+    
+    return DATABASE.insert_all("Curso",[str(id),"'"+nome+"'","'"+turno+"'",str(carga_horaria)]) 
