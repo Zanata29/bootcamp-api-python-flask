@@ -56,6 +56,8 @@ def insert_curso():
     id,nome,turno,carga_horaria = request.get_json().values()
     if id < 0 or id > 99999:
         return jsonify({'error': 'ID do curso é inválido.'})
+    if not nome:
+        return jsonify({'error': 'Nome do curso é inválido.'})
     if turno not in ['matutino','vespertino','noturno']:
         return jsonify({'error': 'Turno do curso é inválido.'})
     if carga_horaria < 0 or carga_horaria > 1000:
@@ -82,3 +84,14 @@ def insert_aluno():
         return jsonify({'error': 'Status do aluno é inválido.'})
     
     return DATABASE.insert_all("Aluno",[str(cpf),"'"+matricula+"'","'"+nome+"'","'"+data_nascimento+"'","'"+telefone+"'","'"+email+"'", str(status)]) 
+
+@app.route("/alunos/matricular", methods=["POST"])
+def insert_aluno_on_curso():
+    aluno_cpf,curso_id = request.get_json().values()
+    if not DATABASE.get_by_id("Aluno", str(aluno_cpf), "cpf").get_json():
+        return jsonify({'error': 'Código de aluno informado não foi encontrado.'})
+    if not DATABASE.get_by_id("Curso", str(curso_id)).get_json():
+        return jsonify({'error': 'Código do curso informado não foi encontrado.'})
+    
+    return DATABASE.insert("AlunoCurso",["aluno_cpf","curso_id"],[str(aluno_cpf),str(curso_id)])
+

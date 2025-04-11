@@ -54,6 +54,18 @@ class DBManager:
             return jsonify({'error': str(error)}), 500
         finally:
             db.close()
+    
+    def insert(self, tablename: str, columns, values):
+        try:
+           db = self.get_connection()
+           cursor = db.cursor()
+           cursor.execute("INSERT INTO {table}({columns}) VALUES ({values});".format(table=tablename, columns=",".join(columns),  values=",".join(values))) 
+           db.commit()
+           return jsonify({'message': 'Inserido com sucesso.'}) 
+        except sqlite3.Error as error:
+            return jsonify({'error': str(error)}), 500
+        finally:
+            db.close()
 
     def raw_sql(self, sql: str):
         try:
