@@ -1,6 +1,7 @@
 from main import app
 from dbmanager import DBManager
 from flask import request, jsonify
+import re
 
 DATABASE = DBManager("db/BD_Bootcamp.db")
 
@@ -50,7 +51,7 @@ def get_cursos_by_aluno(aluno_cpf):
     """.format(id=aluno_cpf)
     )
 
-@app.route("/cursos/adicionar", methods=["POST"])
+@app.route("/cursos/cadastrar", methods=["POST"])
 def insert_curso():
     id,nome,turno,carga_horaria = request.get_json().values()
     if id < 0 or id > 99999:
@@ -61,3 +62,23 @@ def insert_curso():
         return jsonify({'error': 'Carga-horária do curso é inválida.'})
     
     return DATABASE.insert_all("Curso",[str(id),"'"+nome+"'","'"+turno+"'",str(carga_horaria)]) 
+
+@app.route("/alunos/cadastrar", methods=["POST"])
+def insert_aluno():
+    cpf,nome,matricula,data_nascimento,telefone,email,status = request.get_json().values()
+    if re.match(r'^\d{11}$', str(cpf)) is None:
+        return jsonify({'error': 'CPF inválido.'})
+    if not nome:
+        return jsonify({'error': 'Nome do aluno é inválido.'})
+    if re.match(r'^\d{13}$', matricula) is None:
+        return jsonify({'error': 'Número de matrícula é inválido.'})
+    if re.match(r'^(0[1-9]|[1-2][0-9]|3[0-1])/(0[1-9]|1[0-2])/(\d{4})$', data_nascimento) is None:
+        return jsonify({'error': 'Data de nascimento inválida.'})
+    if re.match(r'^\d{11}$', telefone) is None:
+        return jsonify({'error': 'Número de telefone inválido.'})
+    if len(email) > 35 or re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email) is None:
+        return jsonify({'error': 'Endereço de e-mail inválido.'})
+    if status < 0 or status > 1:
+        return jsonify({'error': 'Status do aluno é inválido.'})
+    
+    return DATABASE.insert_all("Aluno",[str(cpf),"'"+matricula+"'","'"+nome+"'","'"+data_nascimento+"'","'"+telefone+"'","'"+email+"'", str(status)]) 
