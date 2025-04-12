@@ -6,9 +6,7 @@
     "version": "1.0"
   },
   "basePath": "/",
-  "schemes": [
-    "http"
-  ],
+  "schemes": ["http"],
   "paths": {
     "/": {
       "get": {
@@ -16,9 +14,7 @@
         "description": "Retorna uma mensagem de boas-vindas",
         "produces": ["application/json"],
         "responses": {
-          "200": {
-            "description": "Mensagem de boas-vindas"
-          }
+          "200": { "description": "Mensagem de boas-vindas" }
         }
       }
     },
@@ -28,9 +24,7 @@
         "description": "Retorna 'pong' para confirmar que a API está funcionando",
         "produces": ["application/json"],
         "responses": {
-          "200": {
-            "description": "Resposta pong"
-          }
+          "200": { "description": "Resposta pong" }
         }
       }
     },
@@ -44,9 +38,7 @@
             "description": "Lista de alunos",
             "schema": {
               "type": "array",
-              "items": {
-                "$ref": "#/definitions/Aluno"
-              }
+              "items": { "$ref": "#/definitions/Aluno" }
             }
           }
         }
@@ -62,11 +54,144 @@
             "description": "Lista de cursos",
             "schema": {
               "type": "array",
-              "items": {
-                "$ref": "#/definitions/Curso"
-              }
+              "items": { "$ref": "#/definitions/Curso" }
             }
           }
+        }
+      }
+    },
+    "/alunos/{id}": {
+      "get": {
+        "summary": "Busca aluno por CPF",
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "integer"
+        }],
+        "responses": {
+          "200": { "description": "Dados do aluno" }
+        }
+      }
+    },
+    "/cursos/{id}": {
+      "get": {
+        "summary": "Busca curso por ID",
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "integer"
+        }],
+        "responses": {
+          "200": { "description": "Dados do curso" }
+        }
+      }
+    },
+    "/alunos/curso/{curso_id}": {
+      "get": {
+        "summary": "Lista alunos de um curso",
+        "parameters": [{
+          "name": "curso_id",
+          "in": "path",
+          "required": true,
+          "type": "integer"
+        }],
+        "responses": {
+          "200": {
+            "description": "Lista de alunos do curso",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Aluno" }
+            }
+          }
+        }
+      }
+    },
+    "/cursos/aluno/{aluno_cpf}": {
+      "get": {
+        "summary": "Lista cursos de um aluno",
+        "parameters": [{
+          "name": "aluno_cpf",
+          "in": "path",
+          "required": true,
+          "type": "integer"
+        }],
+        "responses": {
+          "200": {
+            "description": "Lista de cursos do aluno",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Curso" }
+            }
+          }
+        }
+      }
+    },
+    "/cursos/cadastrar": {
+      "post": {
+        "summary": "Cadastrar novo curso",
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "integer" },
+              "nome": { "type": "string" },
+              "turno": { "type": "string" },
+              "carga_horaria": { "type": "integer" }
+            }
+          }
+        }],
+        "responses": {
+          "200": { "description": "Curso cadastrado" }
+        }
+      }
+    },
+    "/alunos/cadastrar": {
+      "post": {
+        "summary": "Cadastrar novo aluno",
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "cpf": { "type": "integer" },
+              "nome": { "type": "string" },
+              "matricula": { "type": "string" },
+              "data_nascimento": { "type": "string" },
+              "telefone": { "type": "string" },
+              "email": { "type": "string" },
+              "status": { "type": "integer" }
+            }
+          }
+        }],
+        "responses": {
+          "200": { "description": "Aluno cadastrado" }
+        }
+      }
+    },
+    "/alunos/matricular": {
+      "post": {
+        "summary": "Matricular aluno em curso",
+        "parameters": [{
+          "in": "body",
+          "name": "body",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "aluno_cpf": { "type": "integer" },
+              "curso_id": { "type": "integer" }
+            }
+          }
+        }],
+        "responses": {
+          "200": { "description": "Aluno matriculado com sucesso" }
         }
       }
     }
@@ -75,27 +200,22 @@
     "Aluno": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "integer",
-          "description": "ID único do aluno"
-        },
-        "nome": {
-          "type": "string",
-          "description": "Nome do aluno"
-        }
+        "cpf": { "type": "integer" },
+        "matricula": { "type": "string" },
+        "nome": { "type": "string" },
+        "data_nascimento": { "type": "string" },
+        "telefone": { "type": "string" },
+        "email": { "type": "string" },
+        "status": { "type": "integer" }
       }
     },
     "Curso": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "integer",
-          "description": "ID único do curso"
-        },
-        "nome": {
-          "type": "string",
-          "description": "Nome do curso"
-        }
+        "id": { "type": "integer" },
+        "nome": { "type": "string" },
+        "turno": { "type": "string" },
+        "carga_horaria": { "type": "integer" }
       }
     }
   }
